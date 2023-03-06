@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:6000/kyc_database
+    username: kyc_user
+    password: kyc_pass
+    hikari:
+      maximum-pool-size: 1
+  jpa:
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+
+
+server:
+  port: 9005
