@@ -43,6 +43,12 @@ public class BaseKycRecordReport implements Serializable, Persistable<UUID> {
 
     @Column(name = "RELATED_FOLIO")
     private Long folio;
+
+    @Column(name = "ID_CUSTOMER")
+    private Long idCustomer;
+
+    @Column(name = "CREATOR")
+    private String creator;
     
     @Override
     public boolean isNew() {

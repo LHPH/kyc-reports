@@ -1,4 +1,4 @@
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <link rel="stylesheet" href="KYC_PAYMENT_RECEIPT.css"/>
@@ -6,8 +6,87 @@
 
 <body class="kyc-payment-receipt__background">
 
-    <p class="kyc-payment-receipt__title">KYC SERVICES</p>
+    <div class="kyc-payment-receipt__container">
+        <h3 class="kyc-payment-receipt__title">SERVICIOS KYC</h3>
 
+        <div class="kyc-payment-receipt__general-section">
+            <h2>Datos generales</h2>
+            <table class="kyc-payment-receipt__general">
+                <tr>
+                    <td style="width:242px">
+                        <div class="kyc-payment-receipt__general-customer">
+                            <p th:text="${customer_name}">${customer_name}</p>
+                            <p th:text="${customer_address}">${customer_address}</p>
+                        </div>
+                    </td>
+                    <td style="width:80px">
+                        <div class="kyc-payment-receipt__general-customer">
+                            <p>
+                                <span class="kyc-payment-receipt__span-font-bold">Cliente:</span>
+                                <span th:text="${customer_number}">${customer_number}</span>
+                            </p>
+                            <p>
+                                <span class="kyc-payment-receipt__span-font-bold">Folio:</span>
+                                <span th:text="${folio}">${folio}</span>
+                            </p>
+                            <p>
+                                <span class="kyc-payment-receipt__span-font-bold">Fecha:</span>
+                                <span th:text="${folio_date}">${folio_date}</span>
+                            </p>
+                            <p>
+                                <span class="kyc-payment-receipt__span-font-bold">Cantidad:</span>
+                                <span th:text="${#numbers.formatDecimal(paid_amount,3,2)}">${paid_amount}</span>
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <div class="kyc-payment-receipt__services-section">
+            <h2>Servicios KYC contratados</h2>
+            <table class="kyc-payment-receipt__services">
+                <thead>
+                <tr>
+                    <th>Servicio</th>
+                    <th style="text-align: right">Costo</th>
+                </tr>
+                </thead>
+                <tr th:each="service : ${services}">
+                    <td  th:text="${service.name}">SERVICIO 1</td>
+                    <td  th:text="${#numbers.formatDecimal(service.cost,3,2)}" style="text-align: right">$10000</td>
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td th:text="${#numbers.formatDecimal(total_amount,3,2)}" style="text-align: right">$10000</td>
+                </tr>
+            </table>
+            <div class="kyc-payment-receipt__payment-methods">
+
+                    <span class="kyc-payment-receipt__span-font-bold">Forma de pago:</span>
+                    <span class="kyc-payment-receipt__radio-button" th:classappend ="${payment_option==0 ? 'radio-button-checked' : ''}"
+                          id="radio-card"></span>
+                    <label for="radio-card">Tarjeta</label>
+                    <span class="kyc-payment-receipt__radio-button" th:classappend ="${payment_option==1 ? 'radio-button-checked' : ''}"
+                          id="radio-deposit"></span>
+                    <label for="radio-deposit">Depósito</label>
+                    <span class="kyc-payment-receipt__radio-button" th:classappend ="${payment_option==2 ? 'radio-button-checked' : ''}"
+                          id="radio-cash"></span>
+                    <label for="radio-cash">Efectivo</label>
+            </div>
+        </div>
+
+        <footer class="kyc-payment-receipt__footer">
+            <div class="kyc-payment-receipt__serial-section">
+                <p>
+                    <span class="kyc-payment-receipt__span-font-bold">No. Serie: </span>
+                    <span th:text="${id_report}">${idReport}</span>
+                </p>
+            </div>
+        </footer>
+
+    </div>
 </body>
 
 </html>

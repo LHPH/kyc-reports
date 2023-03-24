@@ -3,6 +3,8 @@ package com.kyc.reports.controller.delegate;
 import com.kyc.core.model.reports.ReportData;
 import com.kyc.core.model.web.RequestData;
 import com.kyc.core.model.web.ResponseData;
+import com.kyc.reports.model.ContractServiceRequest;
+import com.kyc.reports.model.ReceiptRequest;
 import com.kyc.reports.model.ServiceRequestForm;
 import com.kyc.reports.service.GenerateReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +27,17 @@ public class ReportDelegate {
     public ResponseData<ReportData> retrieveReport(RequestData<String> req){
 
         return generateReportService.retrieveReport(req);
+    }
+
+    public ResponseEntity<ResponseData<ReportData>> generateReceipt(RequestData<ReceiptRequest> req){
+
+        return generateReportService.generateReceipt(req)
+                .toResponseEntity();
+    }
+
+    public ResponseEntity<ResponseData<ReportData>> generateContract(RequestData<ContractServiceRequest> req){
+
+        return generateReportService.generateContract(req)
+                .toResponseEntity();
     }
 }

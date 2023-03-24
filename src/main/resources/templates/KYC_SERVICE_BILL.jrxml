@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.1.final using JasperReports Library version 6.20.1-7584acb244139816654f64e2fd57a00d3e31921e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="KYC_SERVICE_BILL" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b2e80e4a-46ff-48e0-bc90-dd77dbc37f03">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Service Collection Adapter"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="647"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="353"/>
+	<parameter name="CUSTOMER_NAME" class="java.lang.String">
+		<parameterDescription><![CDATA[TEST TEST TEST TEST]]></parameterDescription>
+	</parameter>
+	<parameter name="RFC" class="java.lang.String"/>
+	<parameter name="BILL_NUMBER" class="java.lang.String"/>
+	<parameter name="DATE_REPORT" class="java.lang.String"/>
+	<parameter name="SERIAL_NUMBER" class="java.lang.String"/>
+	<parameter name="SERVICES" class="java.util.List" nestedType="com.kyc.reports.model.ServiceRequest" isForPrompting="false">
+		<defaultValueExpression><![CDATA[Arrays.asList(new com.kyc.reports.model.ServiceRequest(1,"SERVICE 3",1000.0), new com.kyc.reports.model.ServiceRequest(1,"SERVICE 4",500.0))]]></defaultValueExpression>
+	</parameter>
+	<parameter name="CUSTOMER_ADDRESS" class="java.lang.String"/>
+	<parameter name="DATE_LIMIT" class="java.lang.String"/>
+	<parameter name="CUSTOMER_NUMBER" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="cost" class="java.lang.Double"/>
+	<background>
+		<band height="790" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="800" height="790" uuid="a6037a83-691d-4cfc-a3ad-d93afac5811b">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA["KYC_BACKGROUND.png"]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="51" splitType="Stretch">
+			<staticText>
+				<reportElement x="190" y="21" width="200" height="30" uuid="c2cc3b5b-ffb6-4c28-9653-6298f81c194d"/>
+				<textElement>
+					<font fontName="Arial" size="24"/>
+				</textElement>
+				<text><![CDATA[SERVICIOS KYC]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="118" splitType="Stretch">
+			<staticText>
+				<reportElement x="101" y="20" width="50" height="15" uuid="8b672503-c680-4da3-aab2-37397de9315c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial&#xD;&#xA;" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Factura: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="101" y="35" width="50" height="15" uuid="f00cdbba-0cdc-4715-839f-9ae4c31b3b48">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial&#xD;&#xA;" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="20" width="40" height="15" uuid="3e77db70-c635-4da5-aac2-6d33bb9f12e2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="101" y="50" width="39" height="15" uuid="d7504b6c-1060-4138-ba9b-4c00b31cff9e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial&#xD;&#xA;" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RFC:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="170" y="35" width="240" height="15" uuid="1822841d-841d-4b79-8974-25ee5eb9849c">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial&#xD;&#xA;" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CUSTOMER_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="50" width="100" height="15" uuid="f2f925bc-caf9-49a4-b84c-33f98a4f2165">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial&#xD;&#xA;" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RFC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="20" width="114" height="15" uuid="defeb31a-3b58-4fac-ab26-8be1348f7521">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial&#xD;&#xA;" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DATE_REPORT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="101" y="65" width="60" height="15" uuid="e9b1ad1d-b2cc-49a6-bc5e-9724bd484269">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="170" y="65" width="342" height="15" uuid="36be07ee-3368-4a40-aa56-d87741703f49">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CUSTOMER_ADDRESS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="20" width="110" height="15" uuid="9403e22f-3d11-41f3-ad17-4e4a72eb38f4">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial&#xD;&#xA;" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{BILL_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="228" splitType="Stretch">
+			<subreport isUsingCache="false" runToBottom="false">
+				<reportElement isPrintRepeatedValues="false" x="12" y="0" width="492" height="228" uuid="4c0f29f3-0ffd-4f0b-95f8-3d81d590940f"/>
+				<subreportParameter name="SERVICES">
+					<subreportParameterExpression><![CDATA[$P{SERVICES}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="DATE_LIMIT">
+					<subreportParameterExpression><![CDATA[$P{DATE_LIMIT}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="CUSTOMER_NUMBER">
+					<subreportParameterExpression><![CDATA[$P{CUSTOMER_NUMBER}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA["KYC_SERVICE_BILL_DETAIL.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="71" splitType="Stretch">
+			<staticText>
+				<reportElement x="180" y="0" width="50" height="20" uuid="fe8554ff-c175-4071-a00a-507b44c0e10d"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No. Serie: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="230" y="0" width="210" height="20" uuid="ccb47e15-c2b9-4468-a043-753f4d62a02e"/>
+				<textElement>
+					<font fontName="Arial&#xD;&#xA;"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{SERIAL_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

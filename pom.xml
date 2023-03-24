@@ -82,6 +82,26 @@
 			<scope>test</scope>
 		</dependency>
 
+        <dependency>
+            <!-- ALWAYS required, usually included transitively. -->
+            <groupId>com.openhtmltopdf</groupId>
+            <artifactId>openhtmltopdf-core</artifactId>
+            <version>1.0.10</version>
+        </dependency>
+
+        <dependency>
+            <!-- Required for PDF output. -->
+            <groupId>com.openhtmltopdf</groupId>
+            <artifactId>openhtmltopdf-pdfbox</artifactId>
+            <version>1.0.10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.3</version>
+        </dependency>
+
 	</dependencies>
 
     <build>
@@ -93,6 +113,9 @@
                 </includes>
                 <excludes>
                     <exclude>**/*.pdf</exclude>
+                    <exclude>**/*.html</exclude>
+                    <exclude>**/*.css</exclude>
+                    <exclude>**/*.docx</exclude>
                 </excludes>
             </resource>
             <resource>
@@ -100,6 +123,9 @@
                 <filtering>false</filtering>
                 <includes>
                     <include>**/*.pdf</include>
+                    <include>**/*.html</include>
+                    <include>**/*.css</include>
+                    <include>**/*.docx</include>
                 </includes>
             </resource>
         </resources>

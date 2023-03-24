@@ -26,6 +26,8 @@ management:
 kyc-config:
   reports:
     service-application: templates/KYC_SERVICE_FORM.pdf
+    receipt: KYC_PAYMENT_RECEIPT #PATH RESOLVED BY SPRING BOOT, USING THYMELEAF
+    contract: templates/KYC_CONTRACT.docx
 
 kyc-messages:
   catalog:
