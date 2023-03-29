@@ -1,12 +1,12 @@
-package com.kyc.reports.processors;
+package com.kyc.reports.renders;
 
-import com.kyc.core.model.reports.processors.AbstractGeneratePdfBoxReport;
+import com.kyc.core.model.reports.renders.AbstractPdfBoxTemplateRender;
 import com.kyc.core.model.web.RequestData;
 import com.kyc.core.properties.KycMessages;
 import com.kyc.core.util.DateUtil;
 import com.kyc.reports.constants.PdfConstants;
-import com.kyc.reports.model.ServiceRequest;
-import com.kyc.reports.model.ServiceRequestForm;
+import com.kyc.reports.model.web.ServiceRequest;
+import com.kyc.reports.model.web.ServiceRequestForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,16 +37,16 @@ import static com.kyc.reports.constants.PdfConstants.TEXT_FIELD_FOLIO;
 import static com.kyc.reports.constants.PdfConstants.TEXT_FIELD_OFFER_CODE;
 
 @Component
-public class ServiceReqPdfProcessor extends AbstractGeneratePdfBoxReport<ServiceRequestForm> {
+public class ApplicationServiceRender extends AbstractPdfBoxTemplateRender<ServiceRequestForm> {
 
     @Autowired
-    public ServiceReqPdfProcessor(@Value("${kyc-config.reports.service-application}") String pathTemplate,
-                                  KycMessages kycMessages){
+    public ApplicationServiceRender(@Value("${kyc-config.reports.service-application}") String pathTemplate,
+                                    KycMessages kycMessages){
         super(pathTemplate,kycMessages);
     }
 
     @Override
-    protected void fillFields(PDAcroForm pdAcroForm, RequestData<ServiceRequestForm> data) throws IOException {
+    protected void fillFields(PDAcroForm pdAcroForm, String serialNumber, RequestData<ServiceRequestForm> data) throws IOException {
 
         ServiceRequestForm app = data.getBody();
 
@@ -102,6 +102,6 @@ public class ServiceReqPdfProcessor extends AbstractGeneratePdfBoxReport<Service
             }
         }
 
-        setTextField(pdAcroForm, PdfConstants.TEXT_FIELD_SERIAL_NUMBER, app.getSerialNumber());
+        setTextField(pdAcroForm, PdfConstants.TEXT_FIELD_SERIAL_NUMBER, serialNumber);
     }
 }

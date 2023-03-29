@@ -1,4 +1,4 @@
-package com.kyc.reports.model;
+package com.kyc.reports.model.web;
 
 import com.kyc.core.model.BaseModel;
 import lombok.Getter;

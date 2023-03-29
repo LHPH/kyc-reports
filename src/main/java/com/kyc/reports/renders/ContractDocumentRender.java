@@ -1,11 +1,11 @@
-package com.kyc.reports.processors;
+package com.kyc.reports.renders;
 
-import com.kyc.core.model.reports.processors.AbstractPdfWordTemplateRender;
+import com.kyc.core.model.reports.renders.AbstractWordTemplateRender;
 import com.kyc.core.model.web.RequestData;
 import com.kyc.core.properties.KycMessages;
 import com.kyc.core.util.DateUtil;
-import com.kyc.reports.model.ContractServiceRequest;
-import com.kyc.reports.model.ServiceRequest;
+import com.kyc.reports.model.web.ContractServiceRequest;
+import com.kyc.reports.model.web.ServiceRequest;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
@@ -23,15 +23,15 @@ import java.util.Map;
 import java.util.Objects;
 
 @Component
-public class ContractDocProcessor extends AbstractPdfWordTemplateRender<ContractServiceRequest> {
+public class ContractDocumentRender extends AbstractWordTemplateRender<ContractServiceRequest> {
 
     @Autowired
-    public ContractDocProcessor(@Value("${kyc-config.reports.contract}") String pathTemplate, KycMessages kycMessages) {
+    public ContractDocumentRender(@Value("${kyc-config.reports.contract}") String pathTemplate, KycMessages kycMessages) {
         super(pathTemplate, kycMessages);
     }
 
     @Override
-    protected Map<String, String> fillVariables(XWPFDocument xwpfDocument, RequestData<ContractServiceRequest> requestData) {
+    protected Map<String, String> fillVariables(XWPFDocument xwpfDocument, String serialNumber, RequestData<ContractServiceRequest> requestData) {
 
         Map<String, String> map = new HashMap<>();
 
@@ -40,7 +40,7 @@ public class ContractDocProcessor extends AbstractPdfWordTemplateRender<Contract
         map.put("${V_DATE}", DateUtil.dateToString(new Date(),"dd' de 'MMMMM' del 'yyyy"));
         map.put("${V_C_NAME}",data.getCustomerName());
         map.put("${V_C_ADDR}",data.getCustomerAddress());
-        map.put("${V_SERIAL_NUMBER}",data.getSerialNumber());
+        map.put("${V_SERIAL_NUMBER}",serialNumber);
         map.put("${V_FOLIO}", Objects.toString(data.getFolio()));
 
         return map;

@@ -4,19 +4,20 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Service Collection Adapter"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="647"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="353"/>
-	<parameter name="CUSTOMER_NAME" class="java.lang.String">
-		<parameterDescription><![CDATA[TEST TEST TEST TEST]]></parameterDescription>
-	</parameter>
+	<parameter name="CUSTOMER_NAME" class="java.lang.String"/>
 	<parameter name="RFC" class="java.lang.String"/>
 	<parameter name="BILL_NUMBER" class="java.lang.String"/>
 	<parameter name="DATE_REPORT" class="java.lang.String"/>
 	<parameter name="SERIAL_NUMBER" class="java.lang.String"/>
 	<parameter name="SERVICES" class="java.util.List" nestedType="com.kyc.reports.model.ServiceRequest" isForPrompting="false">
-		<defaultValueExpression><![CDATA[Arrays.asList(new com.kyc.reports.model.ServiceRequest(1,"SERVICE 3",1000.0), new com.kyc.reports.model.ServiceRequest(1,"SERVICE 4",500.0))]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[Arrays.asList(new com.kyc.reports.model.web.ServiceRequest(1,"SERVICE 3",1000.0), new com.kyc.reports.model.web.ServiceRequest(1,"SERVICE 4",500.0))]]></defaultValueExpression>
 	</parameter>
 	<parameter name="CUSTOMER_ADDRESS" class="java.lang.String"/>
 	<parameter name="DATE_LIMIT" class="java.lang.String"/>
 	<parameter name="CUSTOMER_NUMBER" class="java.lang.String"/>
+	<parameter name="IS_DESIGN_VIEW" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[true]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -25,13 +26,13 @@
 	<field name="cost" class="java.lang.Double"/>
 	<background>
 		<band height="790" splitType="Stretch">
-			<image>
+			<image isLazy="true">
 				<reportElement x="0" y="0" width="800" height="790" uuid="a6037a83-691d-4cfc-a3ad-d93afac5811b">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
-				<imageExpression><![CDATA["KYC_BACKGROUND.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{IS_DESIGN_VIEW} ? "KYC_BACKGROUND.png" :  this.getClass().getResourceAsStream("/templates/KYC_BACKGROUND.png")]]></imageExpression>
 			</image>
 		</band>
 	</background>
@@ -56,7 +57,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial&#xD;&#xA;" size="12" isBold="true"/>
+					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Factura: ]]></text>
 			</staticText>
@@ -65,7 +66,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial&#xD;&#xA;" size="12" isBold="true"/>
+					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cliente: ]]></text>
 			</staticText>
@@ -83,7 +84,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial&#xD;&#xA;" size="12" isBold="true"/>
+					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[RFC:]]></text>
 			</staticText>
@@ -94,7 +95,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial&#xD;&#xA;" size="12"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{CUSTOMER_NAME}]]></textFieldExpression>
 			</textField>
@@ -103,7 +104,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial&#xD;&#xA;" size="12"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{RFC}]]></textFieldExpression>
 			</textField>
@@ -113,7 +114,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial&#xD;&#xA;" size="12"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{DATE_REPORT}]]></textFieldExpression>
 			</textField>
@@ -143,7 +144,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial&#xD;&#xA;" size="12"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{BILL_NUMBER}]]></textFieldExpression>
 			</textField>
@@ -163,7 +164,7 @@
 					<subreportParameterExpression><![CDATA[$P{CUSTOMER_NUMBER}]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
-				<subreportExpression><![CDATA["KYC_SERVICE_BILL_DETAIL.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{IS_DESIGN_VIEW} ? "KYC_SERVICE_BILL_DETAIL.jasper" :  this.getClass().getResourceAsStream("/templates/KYC_SERVICE_BILL_DETAIL.jasper")]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
@@ -179,7 +180,7 @@
 			<textField>
 				<reportElement x="230" y="0" width="210" height="20" uuid="ccb47e15-c2b9-4468-a043-753f4d62a02e"/>
 				<textElement>
-					<font fontName="Arial&#xD;&#xA;"/>
+					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{SERIAL_NUMBER}]]></textFieldExpression>
 			</textField>

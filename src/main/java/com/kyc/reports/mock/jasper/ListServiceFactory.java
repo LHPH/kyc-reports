@@ -1,6 +1,6 @@
 package com.kyc.reports.mock.jasper;
 
-import com.kyc.reports.model.ServiceRequest;
+import com.kyc.reports.model.web.ServiceRequest;
 
 import java.util.ArrayList;
 import java.util.List;

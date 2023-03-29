@@ -1,4 +1,4 @@
-package com.kyc.reports.model;
+package com.kyc.reports.model.web;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,7 +34,4 @@ public class ServiceRequestForm {
     private Boolean acceptPromotionsCellPhone;
 
     private List<ServiceRequest> services;
-
-    private String serialNumber;
-
 }

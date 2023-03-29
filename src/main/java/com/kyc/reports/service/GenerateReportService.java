@@ -5,16 +5,21 @@ import com.kyc.core.model.web.RequestData;
 import com.kyc.core.model.web.ResponseData;
 import com.kyc.reports.entity.KycRecordReportComplex;
 import com.kyc.reports.enums.ReportTypeEnum;
-import com.kyc.reports.model.ContractServiceRequest;
+import com.kyc.reports.model.web.BillRequest;
+import com.kyc.reports.model.web.ContractServiceRequest;
 import com.kyc.reports.model.DataToEntity;
-import com.kyc.reports.model.ReceiptRequest;
-import com.kyc.reports.model.ServiceRequestForm;
-import com.kyc.reports.processors.ContractDocProcessor;
-import com.kyc.reports.processors.ReceiptPdfProcessor;
-import com.kyc.reports.processors.ServiceReqPdfProcessor;
+import com.kyc.reports.model.web.ReceiptRequest;
+import com.kyc.reports.model.web.ServiceRequestForm;
+import com.kyc.reports.renders.BillServiceRender;
+import com.kyc.reports.renders.ContractDocumentRender;
+import com.kyc.reports.renders.ReceiptServiceRender;
+import com.kyc.reports.renders.ApplicationServiceRender;
 import com.kyc.reports.repository.KycRecordReportsComplexRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -25,13 +30,16 @@ import java.util.UUID;
 public class GenerateReportService {
 
     @Autowired
-    private ServiceReqPdfProcessor serviceReqPdfProcessor;
+    private ApplicationServiceRender serviceReqPdfProcessor;
 
     @Autowired
-    private ReceiptPdfProcessor receiptPdfProcessor;
+    private ReceiptServiceRender receiptPdfProcessor;
 
     @Autowired
-    private ContractDocProcessor contractDocProcessor;
+    private ContractDocumentRender contractDocProcessor;
+
+    @Autowired
+    private BillServiceRender billServiceRender;
 
     @Autowired
     private KycRecordReportsComplexRepository kycRecordReportsComplexRepository;
@@ -40,11 +48,10 @@ public class GenerateReportService {
     public ResponseData<ReportData> generateServiceReqFormReport(RequestData<ServiceRequestForm> req){
 
         UUID idReport = UUID.randomUUID();
-        req.getBody().setSerialNumber(idReport.toString());
         Long folio = req.getBody().getFolio();
         Long customerNumber = req.getBody().getCustomerNumber();
 
-        ByteArrayResource byteArrayResource = serviceReqPdfProcessor.generateReport(req);
+        ByteArrayResource byteArrayResource = serviceReqPdfProcessor.generateReport(idReport.toString(),req);
 
         DataToEntity dataToEntity = DataToEntity.builder()
                 .id(idReport)
@@ -65,11 +72,10 @@ public class GenerateReportService {
     public ResponseData<ReportData> generateReceipt(RequestData<ReceiptRequest> req){
 
         UUID idReport = UUID.randomUUID();
-        req.getBody().setSerialNumber(idReport.toString());
         Long folio = req.getBody().getFolio();
         Long customerNumber = req.getBody().getCustomerNumber();
 
-        ByteArrayResource byteArrayResource = receiptPdfProcessor.generateReport(req);
+        ByteArrayResource byteArrayResource = receiptPdfProcessor.generateReport(idReport.toString(),req);
 
         DataToEntity dataToEntity = DataToEntity.builder()
                 .id(idReport)
@@ -91,11 +97,10 @@ public class GenerateReportService {
     public ResponseData<ReportData> generateContract(RequestData<ContractServiceRequest> req){
 
         UUID idReport = UUID.randomUUID();
-        req.getBody().setSerialNumber(idReport.toString());
         Long folio = req.getBody().getFolio();
         Long customerNumber = req.getBody().getCustomerNumber();
 
-        ByteArrayResource byteArrayResource = contractDocProcessor.generateReport(req);
+        ByteArrayResource byteArrayResource = contractDocProcessor.generateReport(idReport.toString(),req);
 
         DataToEntity dataToEntity = DataToEntity.builder()
                 .id(idReport)
@@ -113,7 +118,29 @@ public class GenerateReportService {
         return ResponseData.of(getReportData(entity));
     }
 
-    public ResponseData<ReportData> retrieveReport(RequestData<String> req){
+    public ResponseData<ReportData> generateBill(RequestData<BillRequest> req){
+
+        UUID idReport = UUID.randomUUID();
+
+        ByteArrayResource byteArrayResource = billServiceRender.generateReport(idReport.toString(),req);
+
+        DataToEntity dataToEntity = DataToEntity.builder()
+                .id(idReport)
+                .folio(req.getBody().getId())
+                .customerNumber(4L) //FIX
+                .creator("creator")
+                .reportType(ReportTypeEnum.BILL)
+                .build();
+
+        KycRecordReportComplex entity = getBaseEntity(dataToEntity);
+        entity.setReport(byteArrayResource.getByteArray());
+
+        kycRecordReportsComplexRepository.save(entity);
+
+        return ResponseData.of(getReportData(entity));
+    }
+
+    public ResponseData<Resource> retrieveReport(RequestData<String> req){
 
         UUID idReport = UUID.fromString(req.getBody());
 
@@ -122,14 +149,12 @@ public class GenerateReportService {
 
             KycRecordReportComplex entity = opRecord.get();
 
-            ReportData reportData = new ReportData();
-            reportData.setDate(entity.getOutputDate());
-            reportData.setMimeType(entity.getMimeType());
-            reportData.setSize(entity.getReport().length);
-            reportData.setName(entity.getName());
-            reportData.setResource(new ByteArrayResource(entity.getReport()));
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\""+entity.getName()+"\"");
+            httpHeaders.add(HttpHeaders.CONTENT_LENGTH,""+entity.getReport().length);
+            httpHeaders.add(HttpHeaders.CONTENT_TYPE, entity.getMimeType());
 
-            return ResponseData.of(reportData);
+            return ResponseData.of(new ByteArrayResource(entity.getReport()),httpHeaders, HttpStatus.OK);
         }
         return null;
     }

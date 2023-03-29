@@ -1,11 +1,11 @@
-package com.kyc.reports.processors;
+package com.kyc.reports.renders;
 
-import com.kyc.core.model.reports.processors.AbstractGeneratePdfThymeleafTemplate;
+import com.kyc.core.model.reports.renders.AbstractPdfThymeleafTemplateRender;
 import com.kyc.core.model.web.RequestData;
 import com.kyc.core.properties.KycMessages;
 import com.kyc.core.util.DateUtil;
-import com.kyc.reports.model.ReceiptRequest;
-import com.kyc.reports.model.ServiceRequest;
+import com.kyc.reports.model.web.ReceiptRequest;
+import com.kyc.reports.model.web.ServiceRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -16,16 +16,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class ReceiptPdfProcessor extends AbstractGeneratePdfThymeleafTemplate<ReceiptRequest> {
+public class ReceiptServiceRender extends AbstractPdfThymeleafTemplateRender<ReceiptRequest> {
 
     @Autowired
-    public ReceiptPdfProcessor(@Value("${kyc-config.reports.receipt}")String nameTemplate,
-                               KycMessages kycMessages, SpringTemplateEngine templateEngine) {
+    public ReceiptServiceRender(@Value("${kyc-config.reports.receipt}")String nameTemplate,
+                                KycMessages kycMessages, SpringTemplateEngine templateEngine) {
         super(nameTemplate, kycMessages, templateEngine);
     }
 
     @Override
-    protected Context fillContext(RequestData<ReceiptRequest> requestData) {
+    protected Context fillContext(String serialNumber, RequestData<ReceiptRequest> requestData) {
 
         Context context = new Context();
         Map<String,Object> vars = new HashMap<>();
@@ -46,7 +46,7 @@ public class ReceiptPdfProcessor extends AbstractGeneratePdfThymeleafTemplate<Re
 
         vars.put("total_amount",totalAmount);
         vars.put("payment_option",data.getIdPaymentMethod());
-        vars.put("id_report",data.getSerialNumber());
+        vars.put("id_report",serialNumber);
 
         context.setVariables(vars);
         return context;

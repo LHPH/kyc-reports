@@ -46,7 +46,7 @@
 		</queryString>
 	</subDataset>
 	<parameter name="SERVICES" class="java.util.List" nestedType="com.kyc.reports.model.ServiceRequest" isForPrompting="false">
-		<defaultValueExpression><![CDATA[Arrays.asList(new com.kyc.reports.model.ServiceRequest(1,"SERVICE 1",1000.0),new com.kyc.reports.model.ServiceRequest(1,"SERVICE 2",500.0))]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[Arrays.asList(new com.kyc.reports.model.web.ServiceRequest(1,"SERVICE 1",1000.0),new com.kyc.reports.model.web.ServiceRequest(1,"SERVICE 2",500.0))]]></defaultValueExpression>
 	</parameter>
 	<parameter name="DATE_LIMIT" class="java.lang.String"/>
 	<parameter name="CUSTOMER_NUMBER" class="java.lang.String"/>
@@ -88,7 +88,7 @@
 							<staticText>
 								<reportElement x="0" y="0" width="210" height="30" uuid="6a268951-0147-4d17-b6ff-ea53e89f0719"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial&#xD;&#xA;"/>
+									<font fontName="Arial"/>
 								</textElement>
 								<text><![CDATA[Servicio]]></text>
 							</staticText>
@@ -118,7 +118,7 @@
 							<staticText>
 								<reportElement x="0" y="0" width="190" height="30" uuid="3e6094d1-875e-4577-bf6e-5043e335d04d"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial&#xD;&#xA;" isBold="true"/>
+									<font fontName="Arial" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Costo]]></text>
 							</staticText>
@@ -127,7 +127,7 @@
 							<textField pattern="¤#,###.00;¤-#,###.00">
 								<reportElement x="0" y="0" width="190" height="30" uuid="b816ab3d-5097-4762-bd13-660c88d23843"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial&#xD;&#xA;"/>
+									<font fontName="Arial"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{cost}==null ? 0: $V{total}]]></textFieldExpression>
 							</textField>
@@ -151,14 +151,14 @@
 			<staticText>
 				<reportElement x="70" y="0" width="135" height="16" uuid="a62fc4ef-47e4-4109-88bd-634ced6bd745"/>
 				<textElement>
-					<font fontName="arial" size="12" isBold="true"/>
+					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha límite de pago:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="200" y="0" width="100" height="16" uuid="fd751c6a-d721-4749-917c-12822081c67d"/>
 				<textElement>
-					<font fontName="Arial&#xD;&#xA;" size="12"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{DATE_LIMIT}]]></textFieldExpression>
 			</textField>
@@ -176,7 +176,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial&#xD;&#xA;" size="12"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<text><![CDATA[1-  En línea, o de manera domiciliada, con tu TDC]]></text>
 			</staticText>
@@ -185,7 +185,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial&#xD;&#xA;" size="12"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<text><![CDATA[2-  En ventanilla bancaria con la referencia:]]></text>
 			</staticText>
@@ -194,7 +194,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial&#xD;&#xA;" size="12"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<text><![CDATA[3-  Con tu número de teléfono en establecimientos]]></text>
 			</staticText>
@@ -203,7 +203,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial&#xD;&#xA;" size="12"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<text><![CDATA[4-  En efectivo o con tu TDC en nuestras sucursales]]></text>
 			</staticText>

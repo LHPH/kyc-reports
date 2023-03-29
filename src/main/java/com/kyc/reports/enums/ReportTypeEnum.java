@@ -15,7 +15,8 @@ public enum  ReportTypeEnum {
 
     APPLICATION_FORM(1,"APPLICATION-FORM", MediaType.APPLICATION_PDF_VALUE,".pdf"),
     RECEIPT(2,"RECEIPT",MediaType.APPLICATION_PDF_VALUE,".pdf"),
-    CONTRACT(3,"CONTRACT","application/vnd.openxmlformats-officedocument.wordprocessingml.document",".docx");
+    CONTRACT(3,"CONTRACT","application/vnd.openxmlformats-officedocument.wordprocessingml.document",".docx"),
+    BILL(4,"BILL",MediaType.APPLICATION_PDF_VALUE,".pdf");
 
     private final Integer idType;
     private final String prefix;

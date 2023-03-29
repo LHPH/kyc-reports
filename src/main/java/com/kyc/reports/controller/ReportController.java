@@ -4,13 +4,12 @@ import com.kyc.core.model.reports.ReportData;
 import com.kyc.core.model.web.RequestData;
 import com.kyc.core.model.web.ResponseData;
 import com.kyc.reports.controller.delegate.ReportDelegate;
-import com.kyc.reports.model.ContractServiceRequest;
-import com.kyc.reports.model.ReceiptRequest;
-import com.kyc.reports.model.ServiceRequestForm;
+import com.kyc.reports.model.web.BillRequest;
+import com.kyc.reports.model.web.ContractServiceRequest;
+import com.kyc.reports.model.web.ReceiptRequest;
+import com.kyc.reports.model.web.ServiceRequestForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,19 +42,11 @@ public class ReportController {
                 .body(uuid)
                 .build();
 
-        ResponseData<ReportData> result = reportDelegate.retrieveReport(req);
-        ReportData reportData = result.getData();
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\""+reportData.getName()+"\"");
-        httpHeaders.add(HttpHeaders.CONTENT_LENGTH,""+reportData.getSize());
-        httpHeaders.add(HttpHeaders.CONTENT_TYPE, reportData.getMimeType());
-
-        return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(reportData.getResource());
+        return reportDelegate.retrieveReport(req);
     }
 
     @PostMapping("/receipt")
-    public ResponseEntity<ResponseData<ReportData>> printServiceHiringApplication(@RequestBody ReceiptRequest request){
+    public ResponseEntity<ResponseData<ReportData>> printServiceReceipt(@RequestBody ReceiptRequest request){
 
         RequestData<ReceiptRequest> req = RequestData.<ReceiptRequest>builder()
                 .body(request)
@@ -65,12 +56,22 @@ public class ReportController {
     }
 
     @PostMapping("/contract")
-    public ResponseEntity<ResponseData<ReportData>> printServiceHiringApplication(@RequestBody ContractServiceRequest request){
+    public ResponseEntity<ResponseData<ReportData>> printServiceContract(@RequestBody ContractServiceRequest request){
 
         RequestData<ContractServiceRequest> req = RequestData.<ContractServiceRequest>builder()
                 .body(request)
                 .build();
 
         return reportDelegate.generateContract(req);
+    }
+
+    @PostMapping("/bill")
+    public ResponseEntity<ResponseData<ReportData>> printServiceBill(@RequestBody BillRequest request){
+
+        RequestData<BillRequest> req = RequestData.<BillRequest>builder()
+                .body(request)
+                .build();
+
+        return reportDelegate.generateBill(req);
     }
 }

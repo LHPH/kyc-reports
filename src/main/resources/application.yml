@@ -28,6 +28,7 @@ kyc-config:
     service-application: templates/KYC_SERVICE_FORM.pdf
     receipt: KYC_PAYMENT_RECEIPT #PATH RESOLVED BY SPRING BOOT, USING THYMELEAF
     contract: templates/KYC_CONTRACT.docx
+    bill: templates/KYC_SERVICE_BILL.jasper
 
 kyc-messages:
   catalog:
@@ -44,4 +45,5 @@ logging:
     org.springframework: INFO
     org.hibernate.SQL: DEBUG
     #org.hibernate.type.descriptor.sql: TRACE
+    net.sf.jasperreports: INFO
     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
