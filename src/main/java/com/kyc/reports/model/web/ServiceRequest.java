@@ -1,9 +1,9 @@
 package com.kyc.reports.model.web;
 
 import com.kyc.core.model.BaseModel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;

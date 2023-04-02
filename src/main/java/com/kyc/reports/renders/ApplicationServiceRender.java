@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import static com.kyc.reports.constants.PdfConstants.CHECK_BOX_PROMOTIONS_EMAIL;
@@ -78,28 +80,17 @@ public class ApplicationServiceRender extends AbstractPdfBoxTemplateRender<Servi
             setCheckBox(pdAcroForm,CHECK_BOX_PROMOTIONS_EMAIL,true);
         }
 
+        Map<Integer,String> map = new HashMap<>();
+        map.put(1,CHECK_BOX_SERVICE_1);
+        map.put(2,CHECK_BOX_SERVICE_2);
+        map.put(3,CHECK_BOX_SERVICE_3);
+        map.put(4,CHECK_BOX_SERVICE_4);
+        map.put(5,CHECK_BOX_SERVICE_5);
+        map.put(6,CHECK_BOX_SERVICE_6);
+
         for(ServiceRequest service : app.getServices()){
 
-            switch (service.getId()){
-                case 1:
-                    setCheckBox(pdAcroForm, CHECK_BOX_SERVICE_1, true);
-                    break;
-                case 2:
-                    setCheckBox(pdAcroForm, CHECK_BOX_SERVICE_2, true);
-                    break;
-                case 3:
-                    setCheckBox(pdAcroForm, CHECK_BOX_SERVICE_3, true);
-                    break;
-                case 4:
-                    setCheckBox(pdAcroForm, CHECK_BOX_SERVICE_4, true);
-                    break;
-                case 5:
-                    setCheckBox(pdAcroForm, CHECK_BOX_SERVICE_5, true);
-                    break;
-                case 6:
-                    setCheckBox(pdAcroForm, CHECK_BOX_SERVICE_6, true);
-                    break;
-            }
+            setCheckBox(pdAcroForm, map.get(service.getId()), true);
         }
 
         setTextField(pdAcroForm, PdfConstants.TEXT_FIELD_SERIAL_NUMBER, serialNumber);

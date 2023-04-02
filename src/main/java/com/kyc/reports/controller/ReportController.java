@@ -26,7 +26,7 @@ public class ReportController {
     private ReportDelegate reportDelegate;
 
     @PostMapping("/application-form")
-    public ResponseEntity<ResponseData<ReportData>> printServiceHiringApplication(@RequestBody ServiceRequestForm request){
+    public ResponseEntity<ResponseData<ReportData>> printApplicationForm(@RequestBody ServiceRequestForm request){
 
         RequestData<ServiceRequestForm> req = RequestData.<ServiceRequestForm>builder()
                 .body(request)

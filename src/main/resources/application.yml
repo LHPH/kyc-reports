@@ -37,6 +37,18 @@ kyc-messages:
         code: KYC-REPORTS-001
         message: Unexpected Error
         type: ERROR
+      "002":
+        code: KYC-REPORTS-002
+        message: The report could no be generated
+        type: ERROR
+      "003":
+        code: KYC-REPORTS-003
+        message: The report was not found or does not exists
+        type: WARN
+      "004":
+        code: KYC-REPORTS-004
+        message: The service is unavailable
+        type: ERROR
 
 logging:
   level:

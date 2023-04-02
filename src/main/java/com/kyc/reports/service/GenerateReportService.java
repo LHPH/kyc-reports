@@ -1,23 +1,28 @@
 package com.kyc.reports.service;
 
+import com.kyc.core.exception.KycException;
+import com.kyc.core.exception.KycRestException;
 import com.kyc.core.model.reports.ReportData;
+import com.kyc.core.model.web.MessageData;
 import com.kyc.core.model.web.RequestData;
 import com.kyc.core.model.web.ResponseData;
+import com.kyc.core.properties.KycMessages;
 import com.kyc.reports.entity.KycRecordReportComplex;
 import com.kyc.reports.enums.ReportTypeEnum;
+import com.kyc.reports.model.DataToEntity;
 import com.kyc.reports.model.web.BillRequest;
 import com.kyc.reports.model.web.ContractServiceRequest;
-import com.kyc.reports.model.DataToEntity;
 import com.kyc.reports.model.web.ReceiptRequest;
 import com.kyc.reports.model.web.ServiceRequestForm;
+import com.kyc.reports.renders.ApplicationServiceRender;
 import com.kyc.reports.renders.BillServiceRender;
 import com.kyc.reports.renders.ContractDocumentRender;
 import com.kyc.reports.renders.ReceiptServiceRender;
-import com.kyc.reports.renders.ApplicationServiceRender;
 import com.kyc.reports.repository.KycRecordReportsComplexRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -25,6 +30,10 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.kyc.reports.constants.AppConstants.MSG_APP_002;
+import static com.kyc.reports.constants.AppConstants.MSG_APP_003;
+import static com.kyc.reports.constants.AppConstants.MSG_APP_004;
 
 @Service
 public class GenerateReportService {
@@ -44,119 +53,164 @@ public class GenerateReportService {
     @Autowired
     private KycRecordReportsComplexRepository kycRecordReportsComplexRepository;
 
+    @Autowired
+    private KycMessages kycMessages;
 
-    public ResponseData<ReportData> generateServiceReqFormReport(RequestData<ServiceRequestForm> req){
 
-        UUID idReport = UUID.randomUUID();
-        Long folio = req.getBody().getFolio();
-        Long customerNumber = req.getBody().getCustomerNumber();
+    public ResponseData<ReportData> generateServiceReqFormReport(RequestData<ServiceRequestForm> req) {
 
-        ByteArrayResource byteArrayResource = serviceReqPdfProcessor.generateReport(idReport.toString(),req);
+        try {
 
-        DataToEntity dataToEntity = DataToEntity.builder()
-                .id(idReport)
-                .folio(folio)
-                .customerNumber(customerNumber)
-                .creator("creator")
-                .reportType(ReportTypeEnum.APPLICATION_FORM)
-                .build();
+            UUID idReport = UUID.randomUUID();
+            Long folio = req.getBody().getFolio();
+            Long customerNumber = req.getBody().getCustomerNumber();
 
-        KycRecordReportComplex entity = getBaseEntity(dataToEntity);
-        entity.setReport(byteArrayResource.getByteArray());
+            ByteArrayResource byteArrayResource = serviceReqPdfProcessor.generateReport(idReport.toString(), req);
 
-        kycRecordReportsComplexRepository.save(entity);
+            DataToEntity dataToEntity = DataToEntity.builder()
+                    .id(idReport)
+                    .folio(folio)
+                    .customerNumber(customerNumber)
+                    .creator("creator")
+                    .reportType(ReportTypeEnum.APPLICATION_FORM)
+                    .build();
 
-        return ResponseData.of(getReportData(entity));
+            KycRecordReportComplex entity = getBaseEntity(dataToEntity);
+            entity.setReport(byteArrayResource.getByteArray());
+
+            kycRecordReportsComplexRepository.save(entity);
+
+            return ResponseData.of(getReportData(entity));
+        } catch (KycException ex) {
+
+            throw getException(req,ex,HttpStatus.INTERNAL_SERVER_ERROR,kycMessages.getMessage(MSG_APP_002));
+        } catch(DataAccessException ex){
+
+            throw getException(req,ex,HttpStatus.SERVICE_UNAVAILABLE,kycMessages.getMessage(MSG_APP_004));
+       }
     }
 
     public ResponseData<ReportData> generateReceipt(RequestData<ReceiptRequest> req){
 
-        UUID idReport = UUID.randomUUID();
-        Long folio = req.getBody().getFolio();
-        Long customerNumber = req.getBody().getCustomerNumber();
+       try{
 
-        ByteArrayResource byteArrayResource = receiptPdfProcessor.generateReport(idReport.toString(),req);
+           UUID idReport = UUID.randomUUID();
+           Long folio = req.getBody().getFolio();
+           Long customerNumber = req.getBody().getCustomerNumber();
 
-        DataToEntity dataToEntity = DataToEntity.builder()
-                .id(idReport)
-                .folio(folio)
-                .customerNumber(customerNumber)
-                .creator("creator")
-                .reportType(ReportTypeEnum.RECEIPT)
-                .build();
+           ByteArrayResource byteArrayResource = receiptPdfProcessor.generateReport(idReport.toString(),req);
 
-        KycRecordReportComplex entity = getBaseEntity(dataToEntity);
-        entity.setReport(byteArrayResource.getByteArray());
+           DataToEntity dataToEntity = DataToEntity.builder()
+                   .id(idReport)
+                   .folio(folio)
+                   .customerNumber(customerNumber)
+                   .creator("creator")
+                   .reportType(ReportTypeEnum.RECEIPT)
+                   .build();
 
-        kycRecordReportsComplexRepository.save(entity);
+           KycRecordReportComplex entity = getBaseEntity(dataToEntity);
+           entity.setReport(byteArrayResource.getByteArray());
 
-        return ResponseData.of(getReportData(entity));
+           kycRecordReportsComplexRepository.save(entity);
 
+           return ResponseData.of(getReportData(entity));
+       }
+       catch (KycException ex) {
+
+           throw getException(req,ex,HttpStatus.INTERNAL_SERVER_ERROR,kycMessages.getMessage(MSG_APP_002));
+       } catch(DataAccessException ex){
+
+           throw getException(req,ex,HttpStatus.SERVICE_UNAVAILABLE,kycMessages.getMessage(MSG_APP_004));
+       }
     }
 
     public ResponseData<ReportData> generateContract(RequestData<ContractServiceRequest> req){
 
-        UUID idReport = UUID.randomUUID();
-        Long folio = req.getBody().getFolio();
-        Long customerNumber = req.getBody().getCustomerNumber();
+        try{
 
-        ByteArrayResource byteArrayResource = contractDocProcessor.generateReport(idReport.toString(),req);
+            UUID idReport = UUID.randomUUID();
+            Long folio = req.getBody().getFolio();
+            Long customerNumber = req.getBody().getCustomerNumber();
 
-        DataToEntity dataToEntity = DataToEntity.builder()
-                .id(idReport)
-                .folio(folio)
-                .customerNumber(customerNumber)
-                .creator("creator")
-                .reportType(ReportTypeEnum.CONTRACT)
-                .build();
+            ByteArrayResource byteArrayResource = contractDocProcessor.generateReport(idReport.toString(),req);
 
-        KycRecordReportComplex entity = getBaseEntity(dataToEntity);
-        entity.setReport(byteArrayResource.getByteArray());
+            DataToEntity dataToEntity = DataToEntity.builder()
+                    .id(idReport)
+                    .folio(folio)
+                    .customerNumber(customerNumber)
+                    .creator("creator")
+                    .reportType(ReportTypeEnum.CONTRACT)
+                    .build();
 
-        kycRecordReportsComplexRepository.save(entity);
+            KycRecordReportComplex entity = getBaseEntity(dataToEntity);
+            entity.setReport(byteArrayResource.getByteArray());
 
-        return ResponseData.of(getReportData(entity));
+            kycRecordReportsComplexRepository.save(entity);
+
+            return ResponseData.of(getReportData(entity));
+        }
+        catch (KycException ex) {
+
+            throw getException(req,ex,HttpStatus.INTERNAL_SERVER_ERROR,kycMessages.getMessage(MSG_APP_002));
+        } catch(DataAccessException ex){
+
+            throw getException(req,ex,HttpStatus.SERVICE_UNAVAILABLE,kycMessages.getMessage(MSG_APP_004));
+        }
     }
 
     public ResponseData<ReportData> generateBill(RequestData<BillRequest> req){
 
-        UUID idReport = UUID.randomUUID();
+        try{
+            UUID idReport = UUID.randomUUID();
 
-        ByteArrayResource byteArrayResource = billServiceRender.generateReport(idReport.toString(),req);
+            ByteArrayResource byteArrayResource = billServiceRender.generateReport(idReport.toString(),req);
 
-        DataToEntity dataToEntity = DataToEntity.builder()
-                .id(idReport)
-                .folio(req.getBody().getId())
-                .customerNumber(4L) //FIX
-                .creator("creator")
-                .reportType(ReportTypeEnum.BILL)
-                .build();
+            DataToEntity dataToEntity = DataToEntity.builder()
+                    .id(idReport)
+                    .folio(req.getBody().getId())
+                    .customerNumber(4L) //FIX
+                    .creator("creator")
+                    .reportType(ReportTypeEnum.BILL)
+                    .build();
 
-        KycRecordReportComplex entity = getBaseEntity(dataToEntity);
-        entity.setReport(byteArrayResource.getByteArray());
+            KycRecordReportComplex entity = getBaseEntity(dataToEntity);
+            entity.setReport(byteArrayResource.getByteArray());
 
-        kycRecordReportsComplexRepository.save(entity);
+            kycRecordReportsComplexRepository.save(entity);
 
-        return ResponseData.of(getReportData(entity));
+            return ResponseData.of(getReportData(entity));
+        }
+        catch (KycException ex) {
+
+            throw getException(req,ex,HttpStatus.INTERNAL_SERVER_ERROR,kycMessages.getMessage(MSG_APP_002));
+        } catch(DataAccessException ex){
+
+            throw getException(req,ex,HttpStatus.SERVICE_UNAVAILABLE,kycMessages.getMessage(MSG_APP_004));
+        }
     }
 
     public ResponseData<Resource> retrieveReport(RequestData<String> req){
 
         UUID idReport = UUID.fromString(req.getBody());
 
-        Optional<KycRecordReportComplex> opRecord = kycRecordReportsComplexRepository.findById(idReport);
-        if(opRecord.isPresent()){
+        try{
+            Optional<KycRecordReportComplex> opRecord = kycRecordReportsComplexRepository.findById(idReport);
+            if(opRecord.isPresent()){
 
-            KycRecordReportComplex entity = opRecord.get();
+                KycRecordReportComplex entity = opRecord.get();
 
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\""+entity.getName()+"\"");
-            httpHeaders.add(HttpHeaders.CONTENT_LENGTH,""+entity.getReport().length);
-            httpHeaders.add(HttpHeaders.CONTENT_TYPE, entity.getMimeType());
+                HttpHeaders httpHeaders = new HttpHeaders();
+                httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\""+entity.getName()+"\"");
+                httpHeaders.add(HttpHeaders.CONTENT_LENGTH,""+entity.getReport().length);
+                httpHeaders.add(HttpHeaders.CONTENT_TYPE, entity.getMimeType());
 
-            return ResponseData.of(new ByteArrayResource(entity.getReport()),httpHeaders, HttpStatus.OK);
+                return ResponseData.of(new ByteArrayResource(entity.getReport()),httpHeaders, HttpStatus.OK);
+            }
+            throw getException(req,null,HttpStatus.UNPROCESSABLE_ENTITY,kycMessages.getMessage(MSG_APP_003));
         }
-        return null;
+        catch(DataAccessException ex){
+            throw getException(req,ex,HttpStatus.SERVICE_UNAVAILABLE,kycMessages.getMessage(MSG_APP_004));
+        }
     }
 
 
@@ -186,5 +240,15 @@ public class GenerateReportService {
         entity.setIdReportType(reportTypeEnum.getIdType());
 
         return entity;
+    }
+
+    private <T> KycRestException getException(RequestData<T> req, Exception ex, HttpStatus status, MessageData msg){
+
+        return KycRestException.builderRestException()
+                .inputData(req)
+                .exception(ex)
+                .errorData(kycMessages.getMessage(MSG_APP_004))
+                .status(HttpStatus.SERVICE_UNAVAILABLE)
+                .build();
     }
 }
