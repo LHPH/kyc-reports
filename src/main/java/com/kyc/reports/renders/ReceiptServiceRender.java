@@ -1,6 +1,6 @@
 package com.kyc.reports.renders;
 
-import com.kyc.core.model.reports.renders.AbstractPdfThymeleafTemplateRender;
+import com.kyc.core.reports.renders.AbstractPdfThymeleafTemplateRender;
 import com.kyc.core.model.web.RequestData;
 import com.kyc.core.properties.KycMessages;
 import com.kyc.core.util.DateUtil;
@@ -21,7 +21,7 @@ public class ReceiptServiceRender extends AbstractPdfThymeleafTemplateRender<Rec
     @Autowired
     public ReceiptServiceRender(@Value("${kyc-config.reports.receipt}")String nameTemplate,
                                 KycMessages kycMessages, SpringTemplateEngine templateEngine) {
-        super(nameTemplate, kycMessages, templateEngine);
+        super(nameTemplate, kycMessages, templateEngine,"templates");
     }
 
     @Override
