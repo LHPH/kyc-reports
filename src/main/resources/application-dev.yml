@@ -12,6 +12,19 @@ spring:
           use_jdbc_metadata_defaults: false
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
 
+eureka:
+  client:
+    enabled: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://192.168.100.61:9100/eureka
 
-server:
-  port: 9005
+logging:
+  level:
+    root: INFO
+    com.kyc: INFO
+    org.springframework: INFO
+    org.hibernate.SQL: DEBUG
+    #org.hibernate.type.descriptor.sql: TRACE
+    net.sf.jasperreports: INFO
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE

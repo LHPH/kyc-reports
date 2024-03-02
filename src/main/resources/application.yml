@@ -23,6 +23,19 @@ management:
     build:
       enabled: false
 
+server:
+  port: 9005
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 30
+    preferIpAddress: true
+  client:
+    enabled: false
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:9100/eureka
+
 kyc-config:
   reports:
     service-application: templates/KYC_SERVICE_FORM.pdf
@@ -49,13 +62,3 @@ kyc-messages:
         code: KYC-REPORTS-004
         message: The service is unavailable
         type: ERROR
-
-logging:
-  level:
-    root: INFO
-    com.kyc: INFO
-    org.springframework: INFO
-    org.hibernate.SQL: DEBUG
-    #org.hibernate.type.descriptor.sql: TRACE
-    net.sf.jasperreports: INFO
-    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
