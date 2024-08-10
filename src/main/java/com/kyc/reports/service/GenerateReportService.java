@@ -2,8 +2,8 @@ package com.kyc.reports.service;
 
 import com.kyc.core.exception.KycException;
 import com.kyc.core.exception.KycRestException;
-import com.kyc.core.model.reports.ReportData;
 import com.kyc.core.model.MessageData;
+import com.kyc.core.model.reports.ReportData;
 import com.kyc.core.model.web.RequestData;
 import com.kyc.core.model.web.ResponseData;
 import com.kyc.core.properties.KycMessages;

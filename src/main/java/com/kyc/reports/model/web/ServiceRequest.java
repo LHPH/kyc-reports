@@ -1,12 +1,11 @@
 package com.kyc.reports.model.web;
 
 import com.kyc.core.model.BaseModel;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.validation.constraints.NotNull;
 
 @Setter
 @Getter

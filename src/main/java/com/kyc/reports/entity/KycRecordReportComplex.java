@@ -1,13 +1,13 @@
 package com.kyc.reports.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.JdbcTypeCode;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import java.sql.Types;
 
 @Setter
 @Getter
@@ -15,8 +15,9 @@ import javax.persistence.Table;
 @Entity
 public class KycRecordReportComplex extends BaseKycRecordReport{
 
-    @Lob
-    @Type(type = "org.hibernate.type.BinaryType")
+    //@Lob
+    //@Type(type = "org.hibernate.type.BinaryType")
+    @JdbcTypeCode(Types.VARBINARY)
     @Column(name = "REPORT")
     private byte [] report;
 }

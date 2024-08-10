@@ -1,8 +1,8 @@
 package com.kyc.reports.renders;
 
-import com.kyc.core.reports.renders.AbstractWordTemplateRender;
 import com.kyc.core.model.web.RequestData;
 import com.kyc.core.properties.KycMessages;
+import com.kyc.core.reports.renders.AbstractWordTemplateRender;
 import com.kyc.core.util.DateUtil;
 import com.kyc.reports.model.web.ContractServiceRequest;
 import com.kyc.reports.model.web.ServiceRequest;

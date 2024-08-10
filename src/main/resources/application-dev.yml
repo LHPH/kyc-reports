@@ -10,14 +10,14 @@ spring:
       hibernate:
         temp:
           use_jdbc_metadata_defaults: false
-    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 eureka:
   client:
     enabled: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://192.168.100.61:9100/eureka
+      defaultZone: http://localhost:9100/eureka
 
 logging:
   level:

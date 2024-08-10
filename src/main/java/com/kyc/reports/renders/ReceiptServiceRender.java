@@ -1,8 +1,8 @@
 package com.kyc.reports.renders;
 
-import com.kyc.core.reports.renders.AbstractPdfThymeleafTemplateRender;
 import com.kyc.core.model.web.RequestData;
 import com.kyc.core.properties.KycMessages;
+import com.kyc.core.reports.renders.AbstractPdfThymeleafTemplateRender;
 import com.kyc.core.util.DateUtil;
 import com.kyc.reports.model.web.ReceiptRequest;
 import com.kyc.reports.model.web.ServiceRequest;
@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.util.HashMap;
 import java.util.Map;
