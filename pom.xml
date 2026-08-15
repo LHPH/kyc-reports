@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.3</version>
+		<version>4.1.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -18,7 +18,11 @@
 
 	<properties>
 		<java.version>17</java.version>
-		<spring-cloud.version>2024.0.0</spring-cloud.version>
+		<spring-cloud.version>2025.1.2</spring-cloud.version>
+        <pdfbox.version>2.0.37</pdfbox.version>
+        <apache-poi.version>5.5.1</apache-poi.version>
+        <jasper-reports.version>7.0.7</jasper-reports.version>
+        <openhtml.version>1.0.10</openhtml.version>
 	</properties>
 	
 	<dependencies>
@@ -51,7 +55,7 @@
 
         <dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<artifactId>spring-boot-starter-webmvc</artifactId>
 		</dependency>
 		
 		<dependency>
@@ -80,51 +84,45 @@
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
-            <version>2.0.31</version>
+            <version>${pdfbox.version}</version>
         </dependency>
-
-        <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 
         <dependency>
             <!-- ALWAYS required, usually included transitively. -->
             <groupId>com.openhtmltopdf</groupId>
             <artifactId>openhtmltopdf-core</artifactId>
-            <version>1.0.10</version>
+            <version>${openhtml.version}</version>
         </dependency>
 
         <dependency>
             <!-- Required for PDF output. -->
             <groupId>com.openhtmltopdf</groupId>
             <artifactId>openhtmltopdf-pdfbox</artifactId>
-            <version>1.0.10</version>
+            <version>${openhtml.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>5.3.0</version>
+            <version>${apache-poi.version}</version>
         </dependency>
 
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
-            <version>7.0.0</version>
+            <version>${jasper-reports.version}</version>
         </dependency>
 
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports-pdf</artifactId>
-            <version>7.0.0</version>
+            <version>${jasper-reports.version}</version>
         </dependency>
 
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports-functions</artifactId>
-            <version>7.0.0</version>
+            <version>${jasper-reports.version}</version>
         </dependency>
 
         <!-- Fonts as Arial -->
@@ -132,6 +130,18 @@
             <groupId>ar.com.fdvs</groupId>
             <artifactId>DynamicJasper-core-fonts</artifactId>
             <version>2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
